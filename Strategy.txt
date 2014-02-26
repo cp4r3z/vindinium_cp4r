@@ -1,0 +1,200 @@
+Terminology / Nomenclature / Naming Convension
+
+http://blog.caplin.com/2010/02/10/javascript-variable-naming-convention/
+
+Arrays
+    Individual Coordinates:
+    Array of Coordinates:
+    Array of Objects:
+    Array of Distance and Direction (Maybe this should be an object?)
+    
+    THOUGHT: Need a "word" that means Direction and Distance. Distance Vector? Vec_Distance? V_Distance? V_DirDist?
+
+Strings
+
+Iterators
+
+Variables
+
+Private (to Function)
+
+Thought: One board for "terrain" and another one for player position. Another for player 1 position? What about a simple array of player locations... [[x1,y1],[x2,y2]...]
+  
+
+STATIC OBJECTS (terrain never changes)
+Terrain board = array of true/false (can I go here?)
+
+Remember you can't go through a tavern, hero or a mine but you can "enter" them (which basically keeps you in the same place)
+
+Maybe it's a matter of setting a goal... like "attacking hero(s)" or going to tavern or "mining" which sets them as true?
+ 
+Remember that spawning positions are deadly if the player's health is low!
+
+
+the following inherit from a base "class" of "DYNAMIC OBJECTS" or "
+
+Tavern array/object = list of locations, ownership, distance / how to get there
+Hero array/object = list of locations (x,y), hero info, distance / how to get there
+Mines
+accepts an update function with parameters for type, x,y location. Maybe feed a json object? Need to read up on that var object board
+
+NOTES for DynObj class
+.Closest returns the nearest single dynobject
+.ClosestDumb returns a quick distance to nearest object (but not direction)
+
+Objects that inherit from DynObj
+
+Hero
+
+Me inherits from Hero?
+
+Mine
+
+Tavern
+
+Aren't they already in objects though? can my custom object just copy the existing json-like structure?
+
+
+  n?
+firstt turn, we populate these objects
+subsequent turns, we update them
+
+
+Really thinking about building an array of directions which basically say (if you were going here, this is the direction you'd take.
+
+
+Look into ternary/conditional operators... you seem to do it a lot...
+
+var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+...is the same as this:
+
+var array;
+if (typeof objArray != 'object') {
+    array = JSON.parse(objArray);
+} else {
+    array = objArray;
+}
+
+
+This might be a good way to organize the main controller:
+
+BDI
+
+Beliefs: Beliefs represent the informational state of the agent, in other words its beliefs about the world (including itself and other agents). Beliefs can also include inference rules, allowing forward chaining to lead to new beliefs. Using the term belief rather than knowledge recognizes that what an agent believes may not necessarily be true (and in fact may change in the future).
+    Beliefset: Beliefs are stored in database (sometimes called a belief base or a belief set), although that is an implementation decision.
+    
+        So, this would be updating data and anything derived from it.
+    
+Desires: Desires represent the motivational state of the agent. They represent objectives or situations that the agent would like to accomplish or bring about. Examples of desires might be: find the best price, go to the party or become rich.
+    Goals: A goal is a desire that has been adopted for active pursuit by the agent. Usage of the term goals adds the further restriction that the set of active desires must be consistent. For example, one should not have concurrent goals to go to a party and to stay at home – even though they could both be desirable.
+    
+        So this would be using the beliefs to determine the "mode" that the hero is in.
+        
+        If you're winning by x, get to a tavern and only go after VERY safe targets.
+        
+        If you don't have enough life to take a mine, go to a tavern
+        
+        Watch for other players dying and avoid their spawning points.
+        
+        If another player has a large amount of mines, go kill said player
+        
+        Any player with 0 mines should be left alone.
+        
+        Players "target value" increases with the amount of mines they have.
+        
+        Players with more health than you are threats.
+        
+        
+        Target ranking system:
+        
+        Mine is 1
+        
+        Specific Player threat level might factor in
+        Generic threat level is something like... 2?
+        Player with N mines is N / 2
+        
+        Determine which target to go after
+        
+        game is 300 turns, right?
+        
+        turns to get to target / 300 = fraction of game this is going to use (lower is better)
+        
+        Multiple this by the rank and sort to get THE target.
+        
+        
+    
+Intentions: Intentions represent the deliberative state of the agent – what the agent has chosen to do. Intentions are desires to which the agent has to some extent committed. In implemented systems, this means the agent has begun executing a plan.
+    Plans: Plans are sequences of actions (recipes or knowledge areas) that an agent can perform to achieve one or more of its intentions. Plans may include other plans: my plan to go for a drive may include a plan to find my car keys. This reflects that in Bratman's model, plans are initially only partially conceived, with details being filled in as they progress.
+    
+        Taking action. Maybe even executing a plan. I suppose this is where I consider reacting or begin proactive.
+        
+        Default 
+        
+        Go to nearest mine or replenish health
+        
+        Kill Highest
+        
+        Attack highest scoring player or player with most mines .
+        Basically go to the tavern closest to the target if your health is less than the target. Advance on target if greater.
+        
+        
+
+
+References:
+
+Asimov
+
+Three Laws
+
+A robot may not injure a human being or, through inaction, allow a human being to come to harm.
+A robot must obey the orders given to it by human beings, except where such orders would conflict with the First Law.
+A robot must protect its own existence as long as such protection does not conflict with the First or Second Law.
+
+SPD-13 (Speedy) conflicted between saving himself and obeying orders.
+
+
+Marvin Lee Minsky
+
+The society of mind
+
+Agents and Interactions
+
+
+Wolfenstein / Doom
+
+John D. Carmack
+
+William "B.J." Blazkowicz
+Staatmeister
+Operation: Eisenfaust (Iron Fist)
+Giftkrieg (Poison War)
+
+Kein durchgang - No trespassing
+Alles ist verloren - All is lost
+
+
+Zugzwang (German for "compulsion to move", 
+
+
+Spanish 
+
+Board = Tablero
+
+LOGO "turtles"
+
+Pac Man
+
+Garry Kasparov by IBM's Deep Blue
+
+Watson, a Jeopardy
+
+
+"Modes"
+
+Predator - kill heros close by
+Marauder - kill someone who has too many mines
+Warrior - protect what is yours.
+Dictator - care only about yourself and staying alive - acquire beer
+Emperor - collect all the things!
+Invader - take mines close by
+
