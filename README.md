@@ -13,4 +13,4 @@ Should work with 0.10 and higher.
 ## Examples:
 
     node client.js mySecretKey arena 10
-    node client.js mySecretKey training 10 http://localhost:9000
+    node client.js mySecretKey training 10 http://vindinium.org

@@ -3,10 +3,17 @@
 var request = require('request');
 var qs = require('qs');
 
-var randomBot = require('./bot');
+var cp4rBot = require('./bot');
+
+var beliefs = require('./Beliefs');
 
 function start(serverUrl, key, mode, numTurns, bot, cb) {
   var state;
+  
+  // This is where you would inject the Firebase calls.
+  
+  // The callback would update a variable local to this function.
+  
   if ('arena' === mode) {
     console.log('Connected and waiting for other players to join...');
   }
@@ -16,8 +23,21 @@ function start(serverUrl, key, mode, numTurns, bot, cb) {
       return cb();
     }
     console.log('Playing at:', state['viewUrl']);
+    
+    // Ok, at this point the game has started.
+    
+    var teststring = 'test';
+    console.time('Firebase');
+    
+    
+    beliefs(teststring, function(huh) {
+        console.log(huh);
+    });
+    
+    console.timeEnd('Firebase');
+    
 
-    loop(key, state, bot, cb);
+    loop(key, state, bot, cb); // Passing in the private cb
   });
 }
 
@@ -51,6 +71,7 @@ function getNewGameState(serverUrl, key, mode, numTurns, cb) {
 function loop(key, state, bot, cb) {
 
   if (isFinished(state)) {
+      
     cb();
   } else {
     process.stdout.write('.');
@@ -61,7 +82,7 @@ function loop(key, state, bot, cb) {
           console.log('ERROR:', err);
           cb();
         } else {
-          loop(key, newState, bot, cb);
+          loop(key, newState, bot, cb); //Again with the recursion. Why is this so confusing?
         }
       });
     });
@@ -117,16 +138,18 @@ if ('training' === mode) {
 var serverUrl = 'http://vindinium.org';
 if (6 === argv.length) {
   serverUrl = argv[5];
+  //console.log(serverUrl);
 }
 
-var i = 0;
+
+var i = 0; // This is apparently running multiple games...
 
 function playGame() {
-  start(serverUrl, key, mode, numberOfTurns, randomBot, function() {
+  start(serverUrl, key, mode, numberOfTurns, cp4rBot, function() {
     console.log('Game Finished:', i + 1, '/', numberOfGames);
     i++;
     if (i < numberOfGames) {
-      playGame();
+      playGame(); // Recursion? Why not a dowhile?
     }
   });
 }
