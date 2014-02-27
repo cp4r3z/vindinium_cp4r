@@ -101,6 +101,7 @@ module.exports = function(curState, cb) {
   var direction_chosen;//= choose(dirs) // Eventually comment out the random thing.
   
   direction_chosen = GetDirectionString(GoToClosestFromPointA2Points(coor_me[0], coor_me[1],coor_mines_not_mine));
+  
   console.log(direction_chosen);
   
   // This might not be necessary to run. Probably isn't.

@@ -32,12 +32,14 @@ function start(serverUrl, key, mode, numTurns, bot, cb) {
     
     beliefs(teststring, function(huh) {
         console.log(huh);
+        console.timeEnd('Firebase');
+        
     });
     
-    console.timeEnd('Firebase');
+    //console.timeEnd('Firebase');
     
-
     loop(key, state, bot, cb); // Passing in the private cb
+    
   });
 }
 
